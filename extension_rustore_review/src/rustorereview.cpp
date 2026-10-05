@@ -2,9 +2,10 @@
 #define LIB_NAME "RuStoreReview"
 #define MODULE_NAME "rustorereview"
 
+#include <dmsdk/sdk.h>
+
 #if defined(DM_PLATFORM_ANDROID)
 
-#include <dmsdk/sdk.h>
 #include <dmsdk/dlib/android.h>
 #include "AndroidJavaObject.h"
 
@@ -81,6 +82,13 @@ static const luaL_reg Module_methods[] =
     {"init", Init},
     {"request_review_flow", RequestReviewFlow},
     {"launch_review_flow", LaunchReviewFlow},
+    {0, 0}
+};
+
+#else
+
+static const luaL_reg Module_methods[] =
+{
     {0, 0}
 };
 

@@ -8,18 +8,18 @@
 |---|---|
 | SDK | `ru.rustore.sdk:review:10.5.1` |
 | Источник | rustore-defold-review, `master` от 08.09.2026 (`9329ada`) |
-| Нужен core | [defold-rustore-core](https://github.com/maningame/defold-rustore-core) `10.5.0` |
-| Платформы | только Android, Defold 1.9+ |
+| Нужен core | [defold-rustore-core](https://github.com/maningame/defold-rustore-core) `10.5.0-1` |
+| Платформы | Android, Defold 1.9+; на остальных — пустой модуль |
 | Документация | [rustore.ru/help/sdk/reviews-ratings/defold/10-5-1](https://www.rustore.ru/help/sdk/reviews-ratings/defold/10-5-1) |
 
 ## Подключение
 
-В `[project] dependencies` Android-цели (`platforms/<цель>/platform.settings`, не общий `game.project`) —
+В `[project] dependencies` Android-цели (`platforms/<цель>/platform.settings`) —
 вместе с core, сам Defold его не подтянет. Манифест и ресурсы не нужны.
 
 ```ini
-dependencies#N = https://github.com/maningame/defold-rustore-core/archive/refs/tags/10.5.0.zip
-dependencies#M = https://github.com/maningame/defold-rustore-review/archive/refs/tags/10.5.1.zip
+dependencies#N = https://github.com/maningame/defold-rustore-core/archive/refs/tags/10.5.0-1.zip
+dependencies#M = https://github.com/maningame/defold-rustore-review/archive/refs/tags/10.5.1-1.zip
 ```
 
 Только для сборки в RuStore: в Google Play оценку даёт
@@ -44,12 +44,13 @@ rustorereview.launch_review_flow()  -- показать экран оценки 
 
 - Убран `extension_rustore_review/.gitignore` с правилом `*.jar`: с ним `RuStoreDefoldReview.jar` не попадает
   в git и в zip зависимости, и сборка падает без классов плагина.
+- Заглушка `#else` для платформ кроме Android, как у pay: у RuStore без неё проект с плагином не собирался в
+  редакторе. Вне Android `rustorereview` — пустая таблица, вызовы держат за проверкой платформы.
 
 ## Обновление с GitFlic
 
 1. `git clone https://gitflic.ru/project/rustore/rustore-defold-review.git`, взять `master` или тег.
-2. Заменить `extension_rustore_review` на `review_example/extension_rustore_review`, снова удалить
-   `.gitignore` внутри неё.
+2. Заменить `extension_rustore_review` на `review_example/extension_rustore_review` и повторить отличия выше.
 3. Версия `core` в `versions.json` новее нашей — сначала обновить
    [defold-rustore-core](https://github.com/maningame/defold-rustore-core) и ссылку на него в `game.project`.
 4. Коммит `build: rustore review <версия>`, тег — версия SDK. Наша правка поверх той же версии — тег
